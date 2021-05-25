@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "875843424197",
+    "project_id": "kherel-c54a2",
+    "storage_bucket": "kherel-c54a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875843424197:android:3cd0d5883ed00eefcc85ac",
+        "android_client_info": {
+          "package_name": "com.example.kherelcontacts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875843424197-mq2a4getpu7fcdda7q4v8qvvicqe6caq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdNO4rcBJ0R5X1_M3eyQvd90owAIVySRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875843424197-mq2a4getpu7fcdda7q4v8qvvicqe6caq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
