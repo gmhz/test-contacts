@@ -32,15 +32,16 @@ class _AddContactImportScreenState extends State<AddContactImportScreen> {
             leading: provider.isLoading ? Container() : null,
             title: Text("Phone numbers"),
             actions: [
-              TextButton(
-                onPressed: () {
-                  provider.toggleSelectAll();
-                },
-                child: Text(
-                  provider.allSelected ? "Unselect all" : "Select all",
-                  style: TextStyle(color: Colors.white),
+              if (!provider.isLoading)
+                TextButton(
+                  onPressed: () {
+                    provider.toggleSelectAll();
+                  },
+                  child: Text(
+                    provider.allSelected ? "Unselect all" : "Select all",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
             ],
           ),
           floatingActionButtonLocation:
@@ -65,7 +66,16 @@ class _AddContactImportScreenState extends State<AddContactImportScreen> {
               : null,
           body: Center(
             child: (provider.isLoading)
-                ? CupertinoActivityIndicator()
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CupertinoActivityIndicator(),
+                      if (provider.loadingProgress != null)
+                        SizedBox(height: 16),
+                      if (provider.loadingProgress != null)
+                        Text("${provider.loadingProgress} %"),
+                    ],
+                  )
                 : ListView.builder(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     itemCount: provider.contacts.length,

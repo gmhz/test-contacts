@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class BaseProvider with ChangeNotifier {
@@ -13,6 +14,7 @@ class BaseProvider with ChangeNotifier {
   }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseStorage storage = FirebaseStorage.instance;
   bool _loading = false;
   Map<String, String> errors = Map<String, String>();
 

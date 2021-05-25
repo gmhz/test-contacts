@@ -1,10 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:kherelcontacts/models/app_contact.dart';
 import 'package:kherelcontacts/utils/base_provider.dart';
 import 'package:kherelcontacts/utils/firestore.dart';
+import 'package:kherelcontacts/utils/helpers.dart';
 
 class AddContactImportProvider extends BaseProvider {
+  int _loadingProgress;
   List<AppContact> contacts = List.empty(growable: true);
 
   Future<void> loadAllContacts() async {
@@ -67,20 +72,44 @@ class AddContactImportProvider extends BaseProvider {
 
     var list = contacts.where((e) => e.selected).toList();
     for (int i = 0; i < list.length; i++) {
+      setLoadingProgress = 100 ~/ list.length * i;
       var e = list.elementAt(i);
+      var photoUrl;
+      if (e.photoBytes != null) {
+        var ref = storage.ref().child('uploads/${getRandomString(32)}.jpg');
+
+        Uint8List compressedBytes = await FlutterImageCompress.compressWithList(
+          e.photoBytes,
+          minWidth: 128,
+          quality: 60,
+        );
+        var task = ref.putData(compressedBytes);
+        var taskSnapshot = await task.whenComplete(() => null);
+        var url = await taskSnapshot.ref.getDownloadURL();
+        photoUrl = url;
+      }
+
       await firestore
           .collection(FSKeys.usersCollection)
           .doc(username)
           .collection(FSKeys.contactsCollection)
           .add(
         {
-          "name": "${e.name}",
-          "email": "${e.email}",
-          "phone": "${e.phone}",
-          "photoUrl": "todo",
+          "name": "${e.name ?? ""}",
+          "email": "${e.email ?? ""}",
+          "phone": "${e.phone ?? ""}",
+          "photoUrl": photoUrl ?? "",
         },
       );
     }
+    _loadingProgress = null;
     setLoading = false;
+  }
+
+  int get loadingProgress => _loadingProgress;
+
+  set setLoadingProgress(int value) {
+    _loadingProgress = value;
+    notifyListeners();
   }
 }

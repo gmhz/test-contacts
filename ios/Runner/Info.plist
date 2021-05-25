@@ -43,5 +43,9 @@
 	<false/>
 	<key>NSContactsUsageDescription</key>
     <string>Reason we need access to the contact list</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Для выбора аватара требуется просмотр и выбор картинок из галереи</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Для выбора аватара с камеры требуется разрешение на камеру</string>
 </dict>
 </plist>

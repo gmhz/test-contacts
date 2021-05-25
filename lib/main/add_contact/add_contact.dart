@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:kherelcontacts/main.dart';
-import 'package:kherelcontacts/main/add_contact/create/add_contact_create.dart';
+import 'package:kherelcontacts/main/add_contact/create/create_contact.dart';
 import 'package:kherelcontacts/main/add_contact/import/add_contact_import.dart';
 
 class AddContactScreen extends StatelessWidget {
@@ -31,7 +31,7 @@ class AddContactScreen extends StatelessWidget {
                   Navigator.push(
                     navigatorKey.currentContext,
                     MaterialPageRoute(
-                      builder: (context) => AddContactCreateScreen(),
+                      builder: (context) => CreateContactScreen(),
                     ),
                   );
                 },

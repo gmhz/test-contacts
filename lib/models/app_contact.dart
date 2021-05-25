@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 class AppContact {
-  String id, name, role, phone, email;
+  String id, name, role, phone, email, photoUrl;
   Uint8List photoBytes;
   bool selected;
 
@@ -12,6 +12,9 @@ class AppContact {
     this.phone,
     this.email,
     this.photoBytes,
+    this.photoUrl,
     this.selected = false,
   });
+
+  bool get emptyPhoto => photoUrl == null || photoUrl.isEmpty;
 }

@@ -4,8 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kherelcontacts/auth/auth_provider.dart';
 import 'package:kherelcontacts/auth/auth_screen.dart';
-import 'package:kherelcontacts/main/add_contact/create/add_contact_create_provider.dart';
+import 'package:kherelcontacts/main/add_contact/create/create_contact_provider.dart';
 import 'package:kherelcontacts/main/add_contact/import/add_contact_import_provider.dart';
+import 'package:kherelcontacts/main/details/edit_contact_provider.dart';
 import 'package:kherelcontacts/main/main_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,8 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AddContactImportProvider()),
-        ChangeNotifierProvider(create: (_) => AddContactCreateProvider()),
+        ChangeNotifierProvider(create: (_) => CreateContactProvider()),
+        ChangeNotifierProvider(create: (_) => EditContactProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => MainProvider()),
       ],
@@ -45,11 +47,13 @@ class _MyAppState extends State<MyApp> {
         Provider.of<AddContactImportProvider>(context, listen: false);
     var mainProvider = Provider.of<MainProvider>(context, listen: false);
     var createContactProvider =
-        Provider.of<AddContactCreateProvider>(context, listen: false);
+        Provider.of<CreateContactProvider>(context, listen: false);
+    var editContactProvider = Provider.of<EditContactProvider>(context, listen: false);
     _userSupscription = authProvider.userStream.stream.listen((value) {
       addContactProvider.setUsername = value;
       mainProvider.setUsername = value;
       createContactProvider.setUsername = value;
+      editContactProvider.setUsername = value;
     });
   }
 
