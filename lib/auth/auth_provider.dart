@@ -1,16 +1,10 @@
+import 'dart:async';
+
 import 'package:kherelcontacts/utils/base_provider.dart';
 import 'package:kherelcontacts/utils/firestore.dart';
 
 class AuthProvider extends BaseProvider {
-  String _username;
-
-  String get username => _username;
-
-  set setUsername(String value) {
-    errors.remove('username');
-    _username = value;
-    notifyListeners();
-  }
+  StreamController<String> userStream = StreamController<String>.broadcast();
 
   Future<bool> checkAndAuthIfUserExists() async {
     bool success = false;
@@ -20,11 +14,14 @@ class AuthProvider extends BaseProvider {
 
     if (errors.isEmpty) {
       setLoading = true;
-      var result =
-          await firestore.collection(FSKeys.usersPath).doc(username).get();
+      var result = await firestore
+          .collection(FSKeys.usersCollection)
+          .doc(username)
+          .get();
       if (result != null && result.exists) {
         errors.clear();
         success = true;
+        userStream.add(username);
       } else {
         errors['username'] = "User does not exists";
       }
@@ -42,14 +39,20 @@ class AuthProvider extends BaseProvider {
 
     if (errors.isEmpty) {
       setLoading = true;
-      var result =
-          await firestore.collection(FSKeys.usersPath).doc(username).get();
+      var result = await firestore
+          .collection(FSKeys.usersCollection)
+          .doc(username)
+          .get();
       if (result != null && result.exists) {
         errors['username'] = "User is already exists";
       } else {
-        await firestore.collection(FSKeys.usersPath).doc(username).set({});
+        await firestore
+            .collection(FSKeys.usersCollection)
+            .doc(username)
+            .set({});
         errors.clear();
         success = true;
+        userStream.add(username);
       }
     }
 
@@ -57,5 +60,5 @@ class AuthProvider extends BaseProvider {
     return success;
   }
 
-  bool validUsername() => _username.isNotEmpty && _username.length > 3;
+
 }
